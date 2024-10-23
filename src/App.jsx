@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 import Split from "react-split";
@@ -6,10 +6,23 @@ import { nanoid } from "nanoid";
 import "./App.css";
 
 function App() {
-  const [notes, setNotes] = useState([]);
+  // store notes array to localStorage
+  // use lazy state initialization by returning a function within useState
+  // lazy state initialization helps avoid rerunning expensive computations with every single refresh
+
+  const [notes, setNotes] = useState(
+    () => JSON.parse(localStorage.getItem("notes")) || []
+  );
+
   const [currentNoteId, setCurrentNoteId] = useState(
     (notes[0] && notes[0].id) || ""
   );
+
+  // update localStorage every time notes are updated
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
   const createNewNote = () => {
     const newNote = {
