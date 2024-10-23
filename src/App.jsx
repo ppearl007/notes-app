@@ -28,6 +28,7 @@ function App() {
     const newNote = {
       id: nanoid(),
       body: "# Type your markdown note's title here",
+      lastEdit: Date.now(),
     };
     setNotes((prevNotes) => [newNote, ...prevNotes]);
     setCurrentNoteId(newNote.id);
@@ -37,7 +38,7 @@ function App() {
     setNotes((oldNotes) =>
       oldNotes.map((oldNote) => {
         return oldNote.id === currentNoteId
-          ? { ...oldNote, body: text }
+          ? { ...oldNote, body: text, lastEdit: Date.now() }
           : oldNote;
       })
     );

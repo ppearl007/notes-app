@@ -9,6 +9,13 @@ export default function Sidebar(props) {
     setCurrentNoteId: PropTypes.func,
   };
 
+  // sort notes so that most recently edited is at the top
+  props.notes.sort((a, b) => {
+    const timeStampA = a.lastEdit;
+    const timeStampB = b.lastEdit;
+    return timeStampB - timeStampA;
+  });
+
   const noteElements = props.notes.map((note) => (
     <div key={note.id}>
       <div
